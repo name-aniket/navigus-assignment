@@ -45,6 +45,10 @@ $(document).ready(function () {
 
             if (data.status === 200) {
                 viewDoc();
+                /**
+                 * poll the server every 30 sec to get the new list of user
+                 * who are viewing the document
+                 */
                 let startPooling = setInterval(viewDoc, 30000);
             } else {
                 _handleNoPermission(data.message);
@@ -90,7 +94,9 @@ $(document).ready(function () {
     }
 
     /**
-     * 
+     * If the user has permission to view the doc
+     * This function returns the list of active user
+     * who are viewing this page.
      */
     const viewDoc = () => {
         _api_ = 'http://localhost/navigus-assignment/api/User/canViewDoc.php';
@@ -123,10 +129,16 @@ $(document).ready(function () {
         $('#dummy-doc').html(str);
     }
 
+    /**
+     * 
+     */
     const _handleNoPermission = (message) => {
         alert(message);
     }
 
+    /**
+     * This function fetches the list of all user who visited this document in the past.
+     */
     const _getLastVisited = () => {
 
         const _api_ = 'http://localhost/navigus-assignment/api/User/getLastViewed.php';
@@ -146,7 +158,7 @@ $(document).ready(function () {
     }
 
     /**
-     * 
+     * This event is fired when the user click the "Last Viewed" button
      */
     $(document).on('click', '#last-viewed', (event) => {
         _getLastVisited();

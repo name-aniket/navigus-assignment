@@ -1,4 +1,4 @@
-# navigus-assignment
+# navigus-assignment-1
 
 ## Project Description
 
@@ -34,3 +34,41 @@ Just like the google docs or google excel sheet works when they are shared among
   * List currently viewing user
   * List all last viewed user
 * Logout
+
+### Login and Registration Modeule
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-02-00.png) 
+
+### View Document
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-25-18.png)
+ 
+### Check User Permission
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-17-46.png)
+
+### List currently viewing user
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-23-34.png)
+
+### List all last viewed user
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-13-13.png)
+
+## Guidelines for database import for testing purpose
+
+* Create a database name `dbNavigusAssignment` in MySQL database
+* Run the following command to import the database in `dbNavigusAssignment`
+```
+mysql -u [username] -p dbNavigusAssignment < data-dump.sql
+```
+* Change the `config/database.php` with your database `username` and `password`
+* `data-dump.sql` is available in the repository
+
+## Guidelines for testing the webapp
+* First create a user.
+
+ * The `view permission` and `avatar` is randomly given to each user by the program.So you may find yourself without proper
+   permission. In that case you can update the database.
+
+## THANKS

@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     /**
      * 
      * @param {*} data
@@ -35,7 +34,22 @@ $(document).ready(function () {
     });
 
     $('#view-doc').click(() => {
-        canViewDoc();
+        /**
+         * Do user have permission to view doc.
+         */
+        _api_ = 'http://localhost/navigus-assignment/api/User/doUserHavePermission.php';
+
+        $.get(_api_, (data) => {
+            
+            data = JSON.parse(data);
+
+            if (data.status === 200) {
+                viewDoc();
+                let startPooling = setInterval(viewDoc, 30000);
+            } else {
+                _handleNoPermission(data.message);
+            }
+        });        
     });
 
     /**
@@ -78,18 +92,13 @@ $(document).ready(function () {
     /**
      * 
      */
-    const canViewDoc = () => {
+    const viewDoc = () => {
         _api_ = 'http://localhost/navigus-assignment/api/User/canViewDoc.php';
 
         $.get(_api_, (data) => {
             data = JSON.parse(data);
-
-            //console.log(data);
-
             if (data.status == 200)
                 _generateUI(data.data);
-            else
-                _handleNoPermission(data.message);
         });
     }
 
@@ -142,7 +151,6 @@ $(document).ready(function () {
     $(document).on('click', '#last-viewed', (event) => {
         _getLastVisited();
     });
-
 
     /**
      * This method is called when page get loaded.

@@ -1,4 +1,6 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
+    
     session_start();
 
     require_once '../../config/database.php';

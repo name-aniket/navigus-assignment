@@ -1,4 +1,7 @@
 <?php
+
+    header('Access-Control-Allow-Origin: *');
+    
     include_once '../../config/database.php';
 
     $username = htmlspecialchars($_POST['username']);

@@ -9,7 +9,7 @@
     $password = htmlspecialchars($_POST['password']);
 
 
-    $stmt = mysqli_prepare($link, "SELECT password FROM Login WHERE username = ?");
+    $stmt = mysqli_prepare($link, "SELECT password,view_permission, CONCAT(firstname,' ' ,lastname) as name, avatar FROM Login L, User U WHERE username = email AND email = ?");
 
     mysqli_stmt_bind_param($stmt, 's', $username);
 
@@ -28,7 +28,10 @@
             session_start();
 
             $_SESSION['user_detail'] = array(
-                'username' => $username
+                'username' => $username,
+                'name'     => $row['name'],
+                'avatar'   => $row['avatar'],
+                'view_permission'=> $row['view_permission']  
             );
 
             $response = array(

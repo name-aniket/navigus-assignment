@@ -1,9 +1,8 @@
 <?php
-    header('Access-Control-Allow-Origin: *');
 
     require_once '../../config/database.php';
 
-    $stmt = mysqli_prepare($link, "SELECT firstname, lastname, last_viewed FROM User WHERE view_permission = 'Y'");
+    $stmt = mysqli_prepare($link, "SELECT name, last_viewed FROM userViewLog");
 
     if (mysqli_stmt_execute($stmt)) {
         
@@ -14,8 +13,7 @@
         while ($row = mysqli_fetch_array($result)) {
     
             $record = array(
-                'firstname'     => $row['firstname'],
-                'lastname'      => $row['lastname'],
+                'name'      => $row['name'],
                 'last_viewed'   => $row['last_viewed']
             );
 

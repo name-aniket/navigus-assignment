@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     const _loadUsernameAndAvatar = (data) => {
 
-        const _name = data.firstname + ' ' + data.lastname;
+        const _name = data.name;
         const _avatar = data.avatar;
         const _email = data.email;
 
@@ -116,7 +116,7 @@ $(document).ready(function () {
         let str = '';
         $.each(data, (key, value) => {
             str += '<li>';
-            str += '<a href="#" data-toggle="tooltip" title="' + value.firstname + '"><img alt="" src="avatars/' + value.avatar + '"></a>';
+            str += '<a href="#" data-toggle="tooltip" title="' + value.name + '"><img alt="" src="avatars/' + value.avatar + '"></a>';
             str += '</li>';
         });
 
@@ -147,7 +147,7 @@ $(document).ready(function () {
             data = JSON.parse(data);
             str = '<div class="row"><ul class="list-group">';
             $.each(data.data, (key, value) => {
-                str += '<li class="list-group-item">' + value.firstname + ' ' + value.lastname + ' visited last at ' + value.last_viewed + '</li>';
+                str += '<li class="list-group-item">' + value.name + ' visited last at ' + value.last_viewed + '</li>';
             });
             str += '</ul></div>';
 

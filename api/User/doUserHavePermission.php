@@ -1,45 +1,64 @@
 <?php
 
-    header('Access-Control-Allow-Origin: *');
-
     session_start();
 
     require_once '../../config/database.php';
 
-    $email = $_SESSION['user_detail']['username'];
+    if ($_SESSION['user_detail']['view_permission'] === 'Y') {
+        /**
+         * Add user to the temporary table.
+         * If user already in the table then update the timestamp.
+         * Otherwise insert into the tables.
+         */
 
-    $stmt = mysqli_prepare($link, "SELECT view_permission FROM User WHERE email = ?");
+        /**
+         * Find whether user already viewing the doc.
+         */
+        $stmt = mysqli_prepare($link, "SELECT username FROM userViewLog WHERE username = ?");
 
-    mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_bind_param($stmt, 's', $_SESSION['user_detail']['username']);
 
-    if (mysqli_stmt_execute($stmt)) {
-        
+        mysqli_stmt_execute($stmt);
+
         $row = mysqli_fetch_array(mysqli_stmt_get_result($stmt));
 
-        if ($row['view_permission'] === 'Y'){
+        if ($row === null) {
             
-            $response = array(
-                'status' => 200,
-                'message'=> 'Has required permission'
-            );
+            $query = "INSERT INTO userViewLog values(?,now(),?,?, ?)";
 
-        }else{
-            /**
-            * Database error.
-            */
-            $response = array(
-                'status' => 401,
-                'message'=> 'You do not have permission to access this resource !'
-            );
+            $stmt = mysqli_prepare($link, $query);
+
+            $username = $_SESSION['user_detail']['username'];
+            $name = $_SESSION['user_detail']['name'];
+            $avatar = $_SESSION['user_detail']['avatar'];
+            $status = 'View';
+            
+            mysqli_stmt_bind_param($stmt, 'ssss', $username, $name, $avatar, $status);
+            
+            mysqli_stmt_execute($stmt);
+
+        } else {
+            
+            $query = "UPDATE userViewLog set last_viewed = now(), status = 'View' WHERE username = ?";
+
+            $stmt = mysqli_prepare($link, $query);
+
+            $username = $_SESSION['user_detail']['username'];
+
+            mysqli_stmt_bind_param($stmt, 's', $username);
+
+            mysqli_stmt_execute($stmt);
         }
 
-    }else{
-        /**
-         * Database error.
-         */
+        $response = array(
+            'status' => 200,
+            'message'=> 'Has required permission'
+        );
+
+    } else {
         $response = array(
             'status' => 401,
-            'message'=> 'Something went wrong. Please try again alter !'
+            'message'=> 'You do not have permission to access this resource!'
         );
     }
 

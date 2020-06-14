@@ -4,19 +4,31 @@
     session_start();
 
     require_once '../../config/database.php';
+        /**
+         * Remove user from the temporary table.
+         * If user already in the table then remove.
+         * Otherwise do nothing.
+         */
 
-    $email = $_SESSION['user_detail']['username'];
+        /**
+         * Find whether user already viewing the doc.
+         */
+        $stmt = mysqli_prepare($link, "SELECT username FROM userViewLog WHERE username = ?");
 
-    $query = "UPDATE User SET status = 'Not viewing' WHERE email = ?";
+        mysqli_stmt_bind_param($stmt, 's', $_SESSION['user_detail']['username']);
 
-    $stmt = mysqli_prepare($link, $query);
+        mysqli_stmt_execute($stmt);
 
-    mysqli_stmt_bind_param($stmt, 's', $email);
+        $row = mysqli_fetch_array(mysqli_stmt_get_result($stmt));
 
-    if (mysqli_stmt_execute($stmt))
-        unset($_SESSION['user_detail']);
+        if ($row != null) {
 
-    echo json_encode(array(
-        'status'  => 200
-    ));
+            $query = "UPDATE userViewLog set status = 'No View' WHERE username = ?";
+            
+            $stmt = mysqli_prepare($link, $query);
+
+            mysqli_stmt_bind_param($stmt, 's', $_SESSION['user_detail']['username']);
+
+            mysqli_stmt_execute($stmt);
+        }
 ?>

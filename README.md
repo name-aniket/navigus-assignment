@@ -55,6 +55,10 @@ Just like the google docs or google excel sheet works when they are shared among
 
 ![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-13%2019-13-13.png)
 
+### Error Page for unauthenticated Users
+
+![](https://github.com/name-aniket/navigus-images/blob/master/Screenshot%20from%202020-06-14%2011-05-27.png)
+
 ## Guidelines for database import for testing purpose
 
 * Create a database name `dbNavigusAssignment` in MySQL database
